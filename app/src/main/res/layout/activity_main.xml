@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/hello_world_textview"
+        android:text="@string/hello_world"
+        android:textSize="25sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/hello_dorset"
+        android:text="@string/dorset_mobile_app_2"
+        android:textSize="25sp"/>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/main_fragment"
+        android:name="com.josue.dorset_mobileapp2.MainFragment"
+        tools:layout="@layout/fragment_main">
+    </androidx.fragment.app.FragmentContainerView>
+
+    <TextView
+        android:text="@string/app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/maps_fragment"
+        tools:context=".MainActivity"
+        android:name="com.google.android.gms.maps.SupportMapFragment">
+    </androidx.fragment.app.FragmentContainerView>
+
+    <EditText
+        android:id="@+id/mapMarkerEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="Text to add to the marker"
+        android:inputType="text"
+        tools:ignore="LabelFor"/>
+
+
+</LinearLayout>
