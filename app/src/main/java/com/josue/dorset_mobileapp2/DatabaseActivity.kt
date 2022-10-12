@@ -3,16 +3,9 @@ package com.josue.dorset_mobileapp2
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.room.Dao
-import androidx.room.Database
-import androidx.room.Delete
-import androidx.room.Entity
-import androidx.room.Insert
-import androidx.room.PrimaryKey
-import androidx.room.Query
 import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.room.Update
+import com.josue.dorset_mobileapp2.db.AppDatabase
+import com.josue.dorset_mobileapp2.models.User
 
 class DatabaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,72 +13,41 @@ class DatabaseActivity : AppCompatActivity() {
         setContentView(R.layout.activity_database)
 
         Thread {
-            val db = Room.databaseBuilder(
-                applicationContext,
-                AppDatabase::class.java, "database-maps"
-            ).build()
-
-            val userDao = db.UserDao()
-
-            //insert user in db
-            userDao.insertUser(User(1,"user name"))
-
-            //inser user list
-            val usersListToInsert = listOf(
-            User(2,"username"),
-            User(3,"user name 3"),
-            )
-            userDao.insertList(usersListToInsert)
-
-            // Update user
-            val userToUpdate = User(3, "Updated name 3")
-            userDao.updateUser(userToUpdate)
-
-            // Delete user
-            val userToDelete = User(2, null)
-            userDao.deleteUser(userToDelete)
-
-            //getting all users
-            val users: List<User> = userDao.getAll()
-            users.map {
-                Log.i("Database map", it.toString())
-            }
-
+            dbOps()
         }.start()
-    }
-}
 
-@Database(entities = [User::class], version = 1)
-abstract class AppDatabase : RoomDatabase(){
-    abstract fun UserDao(): UserDao
-}
-
-@Entity
-data class User(val uid: Int, val uname: String?){
-    @PrimaryKey var id: Int = uid
-    var name: String? = uname
-
-    override fun toString(): String {
-        return "$name ($id)"
     }
 
-}
+    private fun dbOps() {
+        val db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java, "database-maps"
+        ).build()
 
-@Dao
-interface UserDao {
+        val userDao = db.UserDao()
 
-    @Query("SELECT * FROM User")
-    fun getAll(): List<User>
+        //insert new user in db
+        userDao.insertUser(User(1, "user name"))
 
-    @Insert
-    fun insertUser(user: User)
+        //insert user list
+        val usersListToInsert = listOf(
+            User(2, "username"),
+            User(3, "user name 3"),
+        )
+        userDao.insertList(usersListToInsert)
 
-    @Insert
-    fun insertList(user: List<User>)
+        // Update user
+        val userToUpdate = User(3, "Updated name 3")
+        userDao.updateUser(userToUpdate)
 
-    @Update
-    fun updateUser(user: User)
+        // Delete user
+        val userToDelete = User(2, null)
+        userDao.deleteUser(userToDelete)
 
-    @Delete
-    fun deleteUser(user: User)
+        //getting all users
+        val users: List<User> = userDao.getAll()
+        users.map {
+            Log.i("Database map", it.toString())
+        }
+    }
 }
